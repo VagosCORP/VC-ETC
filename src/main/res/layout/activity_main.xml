@@ -1,0 +1,197 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:id="@+id/layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:id="@+id/layout_resCon">
+
+        <Button
+            android:id="@+id/Conect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="conect"
+            android:text="@string/Button_Conect" />
+
+        <!--android:onClick="Chan_ConState" />-->
+
+        <TextView
+            android:id="@+id/conState"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/conStateOff"
+            android:gravity="start"
+            android:textSize="@dimen/size_text"
+            android:clickable="false"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/resumen"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/processOff"
+            android:gravity="end"
+            android:textSize="@dimen/size_text" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Tlabel"
+        android:id="@+id/Tlabel" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9"
+            android:textSize="@dimen/size_temp" />
+
+        <com.vagoscorp.vc_etc.customviews.TemperatureView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/temSV" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/valT"
+        android:id="@+id/tVal"
+        android:gravity="center"
+        android:textSize="@dimen/size_temp" />
+
+    <!--<LinearLayout-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" >-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tActual"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/valT"-->
+            <!--android:textSize="@dimen/size_temp"-->
+            <!--android:gravity="start"-->
+            <!--android:layout_weight="1" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/slash"-->
+            <!--android:id="@+id/textView8"-->
+            <!--android:textSize="@dimen/size_temp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tDeseada"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/desT"-->
+            <!--android:textSize="@dimen/size_temp"-->
+            <!--android:clickable="false"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="end" />-->
+    <!--</LinearLayout>-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/divider" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/labelQ1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inputQ"/>
+
+        <TextView
+            android:id="@+id/labelQ2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/outputQ"
+            android:longClickable="false"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.vagoscorp.vc_etc.customviews.CaudalView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/q1SV"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/div"
+            android:id="@+id/textView8"
+            android:singleLine="false"
+            android:visibility="invisible" />
+
+        <com.vagoscorp.vc_etc.customviews.CaudalView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/q2SV"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/vQ1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Q1"
+            android:gravity="start"
+            android:textSize="@dimen/size_text"
+            android:clickable="false"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/vQ2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Q2"
+            android:gravity="end"
+            android:textSize="@dimen/size_text"
+            android:clickable="false"
+            android:layout_gravity="bottom"
+            android:layout_weight="1" />
+        <!--android:onClick="Chan_Q1" />-->
+
+    </LinearLayout>
+
+</LinearLayout>

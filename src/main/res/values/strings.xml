@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">VC-ETC</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Configuración</string>
+    <string name="lab_Advconfig">Configuración Avanzada</string>
+    <string name="action_normSettings">Configuración Normal</string>
+    <string name="action_endCOM">Finalizar Comunicación</string>
+    <string name="Button_Conect">Conectar</string>
+    <string name="Button_Conecting">Conectando…</string>
+    <string name="Button_DisConect">Desconectar</string>
+    <string name="BSend">Enviar</string>
+    <string name="NB">Su Dispositivo no cuenta con Bluetooth</string>
+    <string name="SincDev">Dispositivos Sincronizados</string>
+    <string name="EncDev">Dispositivos Encontrados</string>
+    <string name="title_activity_device_list">Seleccione un Dispositivo</string>
+    <string name="UpdateIntent">Aplicar Cambios</string>
+    <string name="CancelIntent">Descartar Cambios</string>
+    <string name="ConfirmChanges">Confirmar Cambios</string>
+    <string name="CancelChanges">Cancelar Cambios</string>
+    <string name="Ser_Dat">Datos de Servidor</string>
+    <string name="NoPD">Ningún Dispositivo Sincronizado</string>
+    <string name="NoSys">Sistema no Vinculado</string>
+    <string name="set_server">Cambiar Servidor</string>
+    <string name="EnBT">Activación de Bluetooth Denegada por el Usuario</string>
+    <string name="Text_RX">RX</string>
+    <string name="Text_TX">Dato</string>
+    <string name="GoalTemp">Temperatura Deseada</string>
+    <string name="inputQ">Caudal Ingreso ml/s</string>
+    <string name="outputQ">Caudal Salida ml/s</string>
+    <string name="TdesVal">Temperatura Requerida</string>
+    <string name="Q1desVal">Caudal Requerido 1</string>
+    <string name="Q2desVal">Caudal Requerido 2</string>
+    <string name="TGainP">Ganancia Proporcional</string>
+    <string name="TGainI">Ganancia Integral</string>
+    <string name="TGainD">Ganancia Derivativa</string>
+    <string name="pump1">Bomba 1</string>
+    <string name="pump2">Bomba 2</string>
+    <string name="title_activity_config">Configuración del Sistema</string>
+    <string name="valT">32.5/35.0</string>
+    <string name="labDesVals">Condiciones Requeridas</string>
+    <string name="labGainTemp">Ganancias de Controlador Termico</string>
+    <string name="labGainPumpM1">Ganancias de Bomba1</string>
+    <string name="labGainPumpM2">Ganancias de Bomba2</string>
+    <string name="conStateOn">Conectado</string>
+    <string name="conStateOff">Desconectado</string>
+    <string name="Q1">Caudal Bomba1</string>
+    <string name="Q2">Caudal Bomba2</string>
+    <string name="resChang">Cambios Resientes</string>
+    <string name="numFormExc">Formato numérico Erróneo</string>
+    <string name="connectExc">No Conectado</string>
+    <string name="initProc">Iniciar Proceso</string>
+    <string name="endProc">Finalizar Proceso</string>
+    <string name="initPToast">Proceso Iniciado</string>
+    <string name="endPToast">Proceso Finalizado</string>
+    <string name="processOn">Control Activo</string>
+    <string name="processOff">Control Inactivo</string>
+    <string name="Err_RCV">Error en recepción</string>
+    <string name="toastP1On">Bomba 1 Encendida</string>
+    <string name="toastP1Off">Bomba 1 Apagada</string>
+    <string name="toastP2On">Bomba 2 Encendida</string>
+    <string name="toastP2Off">Bomba 2 Apagada</string>
+    <string name="Tlabel">Temperatura</string>
+    <string name="div">A</string>
+    <string name="noPass">Contraseña Incorrecta</string>
+    <string name="divider">- - - - - - - - - - - - - - - -</string>
+    <string name="acceptDis">Confirmar Desconexión?</string>
+
+    <string name="stopAlarm">Detener Alarma</string>
+    <string name="fTE">Fallo: Ecceso de Temperatura</string>
+
+    <string name="indev">indev</string>
+    <string name="NoDat">ND</string>
+    <string name="Server_IP" translatable="false">10.0.0.6</string>
+    <string name="Server_Port" translatable="false">2000</string>
+    <string name="OK">Aceptar</string>
+
+    <string name="intentConState">conState</string>
+    <string name="intentDes">Des</string>
+    <string name="intentTpid">Tpid</string>
+    <string name="intentQ1pid">Q1pid</string>
+    <string name="intentQ2pid">Q2pid</string>
+    <string name="intentOnOff">OnOff</string>
+    <string name="intentTdes">Tdes</string>
+    <string name="intentQ1des">Q1des</string>
+    <string name="intentQ2des">Q2des</string>
+    <string name="intentTkP">TkP</string>
+    <string name="intentTkI">TkI</string>
+    <string name="intentTkD">TkD</string>
+    <string name="intentQ1kP">Q1kP</string>
+    <string name="intentQ1kI">Q1kI</string>
+    <string name="intentQ1kD">Q1kD</string>
+    <string name="intentQ2kP">Q2kP</string>
+    <string name="intentQ2kI">Q2kI</string>
+    <string name="intentQ2kD">Q2kD</string>
+    <string name="intentProcess">Process</string>
+    <string name="intentPump1">Pump1</string>
+    <string name="intentPump2">Pump2</string>
+    <string name="title_activity_process_summary">ProcessSummaryActivity</string>
+
+</resources>

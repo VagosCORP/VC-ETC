@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.vagoscorp.vcwtr.ConfigActivity">
+
+    <item
+        android:id="@+id/applySettings"
+        android:title="@string/UpdateIntent"
+        android:orderInCategory="1" />
+    <item
+        android:id="@+id/discartSettings"
+        android:title="@string/CancelIntent"
+        android:orderInCategory="2" />
+</menu>
