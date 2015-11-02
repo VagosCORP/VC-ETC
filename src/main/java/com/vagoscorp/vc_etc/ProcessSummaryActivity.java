@@ -10,31 +10,34 @@ import android.view.MenuItem;
 
 import com.vagoscorp.vc_etc.struct.GraphData;
 
+import java.util.Calendar;
+
 public class ProcessSummaryActivity extends Activity {
 
     int numData = 0;
-    int horas = 0;
-    int minutos = 0;
-    int segundos = 0;
-    int eHoras = 0;
-    int eMinutos = 0;
-    int eSegundos = 0;
+    int numDataGut = 0;
+    int fechaI = 0;
+    int horasI = 0;
+    int minutosI = 0;
+    int segundosI = 0;
+    int fechaF = 0;
+    int horasF = 0;
+    int minutosF = 0;
+    int segundosF = 0;
+    int fechaA = 0;
+    int horasA = 0;
+    int minutosA = 0;
+    int segundosA = 0;
     float[] yArray;
-    int processErrors = 0;
+    boolean[] processErrors;
+    boolean running = false;
+    float actualT = 0;
+    float desiredT = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        horas = intent.getIntExtra(GraphData.HORAS, horas);
-        minutos = intent.getIntExtra(GraphData.MINUTOS, minutos);
-        segundos = intent.getIntExtra(GraphData.SEGUNDOS, segundos);
-        numData = intent.getIntExtra(GraphData.NUM_DATA, numData);
-        yArray = intent.getFloatArrayExtra(GraphData.Y_ARRAY);
-        processErrors = intent.getIntExtra(GraphData.PROCESS_ERRORS, processErrors);
-        eHoras = intent.getIntExtra(GraphData.E_HORAS, eHoras);
-        eMinutos = intent.getIntExtra(GraphData.E_MINUTOS, eMinutos);
-        eSegundos = intent.getIntExtra(GraphData.E_SEGUNDOS, eSegundos);
+        recoverData(getIntent());
         setContentView(R.layout.activity_process_summary);
 
         setupActionBar();
@@ -47,6 +50,29 @@ public class ProcessSummaryActivity extends Activity {
             if(aB != null)
                 aB.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    void recoverData(Intent intent) {
+        Calendar c = Calendar.getInstance();
+        fechaA = c.get(Calendar.DAY_OF_MONTH);
+        horasA = c.get(Calendar.HOUR);
+        minutosA = c.get(Calendar.MINUTE);
+        segundosA = c.get(Calendar.SECOND);
+        fechaI = intent.getIntExtra(GraphData.FECHA_I, fechaI);
+        horasI = intent.getIntExtra(GraphData.HORAS_I, horasI);
+        minutosI = intent.getIntExtra(GraphData.MINUTOS_I, minutosI);
+        segundosI = intent.getIntExtra(GraphData.SEGUNDOS_I, segundosI);
+        numData = intent.getIntExtra(GraphData.NUM_DATA, numData);
+        numDataGut = intent.getIntExtra(GraphData.NUM_DATA_GUT, numDataGut);
+        yArray = intent.getFloatArrayExtra(GraphData.Y_ARRAY);
+        processErrors = intent.getBooleanArrayExtra(GraphData.PROCESS_ERRORS);
+        fechaF = intent.getIntExtra(GraphData.FECHA_F, fechaF);
+        horasF = intent.getIntExtra(GraphData.HORAS_F, horasF);
+        minutosF = intent.getIntExtra(GraphData.MINUTOS_F, minutosF);
+        segundosF = intent.getIntExtra(GraphData.SEGUNDOS_F, segundosF);
+        running = intent.getBooleanExtra(GraphData.RUNNING, running);
+        actualT = intent.getFloatExtra(GraphData.ACTUAL_DATA, actualT);
+        desiredT = intent.getFloatExtra(GraphData.DESIRED_DATA, desiredT);
     }
 
 //    @Override

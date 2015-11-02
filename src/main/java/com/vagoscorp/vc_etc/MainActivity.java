@@ -169,7 +169,7 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
         return checksum;
     }
 
-    int send4Bytes(byte comando, byte bMS, byte bUS, byte bHS, byte bLS) {
+    int send4Bytes(byte comando, int bMS, int bUS, int bHS, int bLS) {
         int checksum = 0;//comando;
         checksum += comunic.enviar_Int8(comando);
         checksum += comunic.enviar_Int8(bMS);
@@ -180,7 +180,7 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
     }
 
     void sendError(int err) {
-        int checksum = 0;//Protocol.cError;
+        int checksum = 0;
         comunic.enviar_Int8(Protocol.PKG_I);
         checksum += comunic.enviar_Int8(Protocol.cError);
         checksum += comunic.enviar_Int8(0);
@@ -503,31 +503,36 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
                 graphData = new GraphData(item.valDd, item.valDc, item.valDb, item.valDa);
                 break;
             }
-            case(Protocol.cGraphItem): {
+            case(Protocol.cSummarySendDetails): {
+                if(graphData != null)
+                    graphData.addGraphParameters(item.valDd, item.valDc, item.valDb, item.valDa);
+                else {
+                    dataInit = false;
+                    sendError(Protocol.errSendGraph);
+                }
+                break;
+            }
+            case(Protocol.cSummarySendItem): {
                 if(graphData != null)
                     graphData.addGraphItem(item.valD);
+                else {
+                    dataInit = false;
+                    sendError(Protocol.errSendGraph);
+                }
                 break;
             }
             case(Protocol.cSummarySendEnd): {
                 if(graphData != null) {
-                    graphData.endReceiving(item.valDL);
+                    graphData.endReceiving(item.valDd, item.valDc, item.valDb, item.valDa);
                     int[] sas = graphData.getGraphConts();
                     if(sas[0] >= sas[1]) {
                         dataInit = false;
                         sendError(Protocol.errSendGraph);
-                    }else {
-                        Intent intent = new Intent(this, ProcessSummaryActivity.class);
-                        intent = graphData.generateIntent(intent);
-                        Calendar c = Calendar.getInstance();
-//                        int date = c.get(Calendar.DAY_OF_MONTH);
-                        int hours = c.get(Calendar.HOUR);
-                        int minutes = c.get(Calendar.MINUTE);
-                        int seconds = c.get(Calendar.SECOND);
-                        intent.putExtra(GraphData.E_HORAS, hours);
-                        intent.putExtra(GraphData.E_MINUTOS, minutes);
-                        intent.putExtra(GraphData.E_SEGUNDOS, seconds);
-                        startActivity(intent);
-                    }
+                    }else
+                        graphData.graphAvailable = true;
+                }else {
+                    dataInit = false;
+                    sendError(Protocol.errSendGraph);
                 }
                 break;
             }
@@ -590,6 +595,14 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
                             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, actualVol, 0);
                         }
                         UpdUI();
+                        if(graphData.graphAvailable) {
+                            Intent intent = new Intent(this, ProcessSummaryActivity.class);
+                            intent = graphData.generateIntent(intent);
+                            intent.putExtra(GraphData.RUNNING, sysParameters.process);
+                            intent.putExtra(GraphData.ACTUAL_DATA, sysState.t);
+                            intent.putExtra(GraphData.DESIRED_DATA, sysParameters.t);
+                            startActivity(intent);
+                        }
                     }else {
                         newPICSysParameters = new SysParameters(sysParameters);
                         sendError(Protocol.errCheckSum);
@@ -674,10 +687,10 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
         sendItemL(Protocol.cChecking, checkSum);
         comunic.enviar_Int8(Protocol.PKG_F);
         Calendar c = Calendar.getInstance();
-        byte date = (byte)c.get(Calendar.DAY_OF_MONTH);
-        byte hours = (byte)c.get(Calendar.HOUR);
-        byte minutes = (byte)c.get(Calendar.MINUTE);
-        byte seconds = (byte)c.get(Calendar.SECOND);
+        int date = c.get(Calendar.DAY_OF_MONTH);
+        int hours = c.get(Calendar.HOUR);
+        int minutes = c.get(Calendar.MINUTE);
+        int seconds = c.get(Calendar.SECOND);
         comunic.enviar_Int8(Protocol.PKG_I);
         checkSum += send4Bytes(Protocol.cHourA, date, hours, minutes, seconds);
         sendItemL(Protocol.cChecking, checkSum);
@@ -701,7 +714,7 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
         if(valConState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.acceptDis);
-            builder.setMessage("Se perderá el vínculo con el Systema");
+            builder.setMessage(R.string.acceptDisDetails);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

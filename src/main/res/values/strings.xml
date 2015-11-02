@@ -66,6 +66,7 @@
     <string name="noPass">Contraseña Incorrecta</string>
     <string name="divider">- - - - - - - - - - - - - - - -</string>
     <string name="acceptDis">Confirmar Desconexión?</string>
+    <string name="acceptDisDetails">Se perderá el vínculo con el Systema</string>
 
     <string name="stopAlarm">Detener Alarma</string>
     <string name="fTE">Fallo: Ecceso de Temperatura</string>
