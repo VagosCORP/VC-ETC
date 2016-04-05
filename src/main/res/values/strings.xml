@@ -52,6 +52,7 @@
     <string name="connectExc">No Conectado</string>
     <string name="initProc">Iniciar Proceso</string>
     <string name="endProc">Finalizar Proceso</string>
+    <string name="viewGraph">ver gráfico</string>
     <string name="initPToast">Proceso Iniciado</string>
     <string name="endPToast">Proceso Finalizado</string>
     <string name="processOn">Control Activo</string>

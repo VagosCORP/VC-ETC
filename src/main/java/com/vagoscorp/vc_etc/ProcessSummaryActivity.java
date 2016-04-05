@@ -8,38 +8,38 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.vagoscorp.vc_etc.customviews.SummaryView;
 import com.vagoscorp.vc_etc.struct.GraphData;
 
 import java.util.Calendar;
 
 public class ProcessSummaryActivity extends Activity {
 
+    int deltaT = 0;
     int numData = 0;
     int numDataGut = 0;
     int fechaI = 0;
-    int horasI = 0;
-    int minutosI = 0;
     int segundosI = 0;
     int fechaF = 0;
-    int horasF = 0;
-    int minutosF = 0;
     int segundosF = 0;
     int fechaA = 0;
-    int horasA = 0;
-    int minutosA = 0;
     int segundosA = 0;
+    int[] xArray;
     float[] yArray;
     boolean[] processErrors;
     boolean running = false;
     float actualT = 0;
     float desiredT = 0;
 
+    SummaryView summaryView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         recoverData(getIntent());
         setContentView(R.layout.activity_process_summary);
-
+        summaryView = (SummaryView)findViewById(R.id.graph);
+        summaryView.setData(xArray, yArray, desiredT, numData);
         setupActionBar();
     }
 
@@ -55,30 +55,39 @@ public class ProcessSummaryActivity extends Activity {
     void recoverData(Intent intent) {
         Calendar c = Calendar.getInstance();
         fechaA = c.get(Calendar.DAY_OF_MONTH);
-        horasA = c.get(Calendar.HOUR);
-        minutosA = c.get(Calendar.MINUTE);
+        int horasA = c.get(Calendar.HOUR);
+        int minutosA = c.get(Calendar.MINUTE);
         segundosA = c.get(Calendar.SECOND);
+        segundosA += 3600*horasA + 60*minutosA;
         fechaI = intent.getIntExtra(GraphData.FECHA_I, fechaI);
-        horasI = intent.getIntExtra(GraphData.HORAS_I, horasI);
-        minutosI = intent.getIntExtra(GraphData.MINUTOS_I, minutosI);
         segundosI = intent.getIntExtra(GraphData.SEGUNDOS_I, segundosI);
         numData = intent.getIntExtra(GraphData.NUM_DATA, numData);
         numDataGut = intent.getIntExtra(GraphData.NUM_DATA_GUT, numDataGut);
         yArray = intent.getFloatArrayExtra(GraphData.Y_ARRAY);
         processErrors = intent.getBooleanArrayExtra(GraphData.PROCESS_ERRORS);
         fechaF = intent.getIntExtra(GraphData.FECHA_F, fechaF);
-        horasF = intent.getIntExtra(GraphData.HORAS_F, horasF);
-        minutosF = intent.getIntExtra(GraphData.MINUTOS_F, minutosF);
         segundosF = intent.getIntExtra(GraphData.SEGUNDOS_F, segundosF);
+        deltaT = intent.getIntExtra(GraphData.DELTA_T, 60);
         running = intent.getBooleanExtra(GraphData.RUNNING, running);
         actualT = intent.getFloatExtra(GraphData.ACTUAL_DATA, actualT);
         desiredT = intent.getFloatExtra(GraphData.DESIRED_DATA, desiredT);
+        processData();
+    }
+
+    void processData() {
+        xArray = new int[numData];
+        for(int i = 0; i < numDataGut; i++)
+            xArray[i] = segundosI + i*deltaT;
+        for(int i = numDataGut; i < numData; i++)
+            xArray[i] = segundosF - (numData - 1 - i)*deltaT;
+//        for(int i = 0; i < numData; i++)
+//            Toast.makeText(this, "x = " + xArray[i], Toast.LENGTH_SHORT).show();
     }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_, menu);
+//        getMenuInflater().inflate(R.menu., menu);
 //        return true;
 //    }
 
@@ -97,5 +106,4 @@ public class ProcessSummaryActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

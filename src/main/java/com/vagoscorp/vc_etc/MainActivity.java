@@ -83,6 +83,7 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
     final int defIndex = 0;
 
     public static final String LD = "LD";
+    String theIP = "10.0.2.10";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +192,15 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
         comunic.enviar_Int8(Protocol.PKG_F);
     }
 
+    void sendCommand(byte command) {
+        int checksum = 0;
+        comunic.enviar_Int8(Protocol.PKG_I);
+        checksum += comunic.enviar_Int8(command);
+        checksum += comunic.enviar_Int32(0);
+        sendItemL(Protocol.cChecking, checksum);
+        comunic.enviar_Int8(Protocol.PKG_F);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -200,8 +210,9 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
                 break;
             }
             case R.id.testGraph: {
-                Intent intent = new Intent(this, ProcessSummaryActivity.class);
-                startActivity(intent);
+                sendCommand(Protocol.cgetSummary);
+//                Intent intent = new Intent(this, ProcessSummaryActivity.class);
+//                startActivity(intent);
                 break;
             }
         }
@@ -212,7 +223,7 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
         myName = BTAdapter.getName();
         myAddress = BTAdapter.getAddress();
         if(BonDev.length > 0) {
-            if(BonDev.length < index)
+            if(BonDev.length <= index)
                 index = 0;
             mDevice = BonDev[index];
             boolean miau = false;
@@ -345,7 +356,7 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
     public void conect(View view) {
         if(comunic.estado == comunic.NULL) {
 //            comunic = new ComunicBT(this, mDevice);
-            comunic = new Comunic(this, "10.0.2.6", 2000);
+            comunic = new Comunic(this, theIP, 2000);
             comunic.edebug = false;
             comunic.debug = false;
             comunic.idebug = false;
@@ -500,7 +511,8 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
                 break;
             }
             case(Protocol.cSummarySendInit): {
-                graphData = new GraphData(item.valDd, item.valDc, item.valDb, item.valDa);
+                DataItem datI = new DataItem((byte)0, (byte)0, item.valDc, item.valDb, item.valDa);
+                graphData = new GraphData(item.valDd, datI.valDL);
                 break;
             }
             case(Protocol.cSummarySendDetails): {
@@ -523,9 +535,10 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
             }
             case(Protocol.cSummarySendEnd): {
                 if(graphData != null) {
-                    graphData.endReceiving(item.valDd, item.valDc, item.valDb, item.valDa);
+                    DataItem datI = new DataItem((byte)0, (byte)0, item.valDc, item.valDb, item.valDa);
+                    graphData.endReceiving(item.valDd, datI.valDL);
                     int[] sas = graphData.getGraphConts();
-                    if(sas[0] >= sas[1]) {
+                    if(sas[0] > sas[1]) {//
                         dataInit = false;
                         sendError(Protocol.errSendGraph);
                     }else
@@ -595,7 +608,7 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
                             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, actualVol, 0);
                         }
                         UpdUI();
-                        if(graphData.graphAvailable) {
+                        if(graphData != null && graphData.graphAvailable) {
                             Intent intent = new Intent(this, ProcessSummaryActivity.class);
                             intent = graphData.generateIntent(intent);
                             intent.putExtra(GraphData.RUNNING, sysParameters.process);
@@ -688,11 +701,13 @@ public class MainActivity extends Activity implements Eventos.OnComunicationList
         comunic.enviar_Int8(Protocol.PKG_F);
         Calendar c = Calendar.getInstance();
         int date = c.get(Calendar.DAY_OF_MONTH);
-        int hours = c.get(Calendar.HOUR);
+        int hours = c.get(Calendar.HOUR_OF_DAY);
         int minutes = c.get(Calendar.MINUTE);
         int seconds = c.get(Calendar.SECOND);
+        seconds += hours*3600 + minutes*60;
+        DataItem hora = new DataItem(Protocol.cHourA, (byte)date, seconds);
         comunic.enviar_Int8(Protocol.PKG_I);
-        checkSum += send4Bytes(Protocol.cHourA, date, hours, minutes, seconds);
+        checkSum = sendItemL(hora.charD, hora.valDL);
         sendItemL(Protocol.cChecking, checkSum);
         comunic.enviar_Int8(Protocol.PKG_F);
         UpdUI();

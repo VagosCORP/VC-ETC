@@ -23,15 +23,64 @@ public class DataItem {
         valDa = 0;
     }
 
-    public void genFI() {
-        byte[] res = {valDd, valDc, valDb, valDa,valDd, valDc, valDb, valDa};
+    public DataItem(byte cha, float data) {
+        charD = cha;
+        byte[] sas = float2ByteArray(data);
+        valDd = sas[0];
+        valDc = sas[1];
+        valDb = sas[2];
+        valDa = sas[3];
+        genFI();
+    }
+
+    public DataItem(byte cha, int data) {
+        charD = cha;
+        byte[] sas = long2ByteArray(data);
+        valDd = sas[0];
+        valDc = sas[1];
+        valDb = sas[2];
+        valDa = sas[3];
+        genFI();
+    }
+
+    public DataItem(byte cha, byte d, byte c, byte b, byte a) {
+        charD = cha;
+        valDd = d;
+        valDc = c;
+        valDb = b;
+        valDa = a;
+        genFI();
+    }
+
+    public DataItem(byte cha, byte fecha, int segundos) {
+        charD = cha;
+        byte[] sas = long2ByteArray(segundos);
+        valDd = fecha;
+        valDc = sas[1];
+        valDb = sas[2];
+        valDa = sas[3];
+        genFI();
+    }
+
+    void genF() {
+        byte[] res = {valDd, valDc, valDb, valDa};
         ByteBuffer byteBuffer = ByteBuffer.wrap(res);
         valD = byteBuffer.getFloat();
+    }
+
+    void genI() {
+        byte[] res = {valDd, valDc, valDb, valDa};
+        ByteBuffer byteBuffer = ByteBuffer.wrap(res);
         valDL = byteBuffer.getInt();
     }
 
-    public byte [] long2ByteArray (long value) {
-        return ByteBuffer.allocate(4).putLong(value).array();
+    public void genFI() {
+        genF();
+        genI();
+    }
+
+    public byte [] long2ByteArray (int value) {
+        return ByteBuffer.allocate(4).putInt(value).array();
     }
 
     public byte [] float2ByteArray (float value) {
